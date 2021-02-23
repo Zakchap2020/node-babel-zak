@@ -21,6 +21,18 @@ server.get('/api/marketplaces', async (req, res) => {
   }
 });
 
+server.post('/api/marketplaces', async (req, res) => {
+  try {
+  } catch (e) {
+    console.error(e);
+    return res.status(500).send(e);
+  }
+});
+
+server.use('*', (req, res) => {
+  return res.status(404).json({ error: 'Route not found' });
+});
+
 server.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
