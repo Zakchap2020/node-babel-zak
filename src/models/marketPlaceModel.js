@@ -8,4 +8,4 @@ const model = new Schema({
   admins: String,
 });
 
-export default mongoose.model('Books', model, 'books');
+export default mongoose.model('Marketplaces', model, 'marketplaces');
