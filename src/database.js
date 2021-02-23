@@ -1,6 +1,10 @@
 import mongoose from 'mongoose';
 
-const opts = { useNewUrlParser: true, useUnifiedTopology: true };
+const opts = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndexes: true,
+};
 export const connect = () => {
   mongoose.connect('mongodb://localhost:27017/bookAPI', opts, (err) => {
     if (err) {
