@@ -1,7 +1,8 @@
-import mongoose, { disconnect } from 'mongoose';
+import mongoose from 'mongoose';
 
+const opts = { useNewUrlParser: true, useUnifiedTopology: true };
 export const connect = () => {
-  mongoose.connect('mongodb://localhost:27017/bookAPI', {}, (err) => {
+  mongoose.connect('mongodb://localhost:27017/bookAPI', opts, (err) => {
     if (err) {
       return console.error(err);
     }

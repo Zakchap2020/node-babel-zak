@@ -1,5 +1,7 @@
 import express from 'express';
 import { connect } from './database';
+
+connect();
 const server = express();
 
 const PORT = 5000;
