@@ -1,5 +1,5 @@
-import mongoose, { Schema } from 'mongoose';
-const { schema } = mongoose;
+import mongoose from 'mongoose';
+const { Schema } = mongoose;
 
 const model = new Schema({
   title: { type: String, required: true, unique: true },

@@ -1,6 +1,6 @@
 import express from 'express';
 import { connect } from './database';
-import Marketplaces from './models/marketPlaceModel';
+import Marketplaces from './models/marketplaceModel';
 
 connect();
 const server = express();
@@ -23,6 +23,43 @@ server.get('/api/marketplaces', async (req, res) => {
 
 server.post('/api/marketplaces', async (req, res) => {
   try {
+    const { body } = req;
+    console.log('😃', body);
+
+    //check body properties - description, description, owner//
+
+    if (
+      !body.hasOwnProperty('name') ||
+      !body.hasOwnProperty('description') ||
+      !body.hasOwnProperty('owner')
+    ) {
+      return res.status(400).json({
+        error: 'Marketplace description, description, owner required',
+      });
+    }
+
+    //check if the marketplace already exists//
+    const marketplaceExists = await Marketplaces.findOne({ name: body.name && body.description});
+    console.log(marketplaceExists);
+
+    // const check => () ={
+    //   if (marketplaceExists = false) {
+    //     return console("you dont have it")
+    //   }
+    // }
+
+    //use the model to create a new marketplace//
+    const marketplace = new Marketplaces({ body });
+    console.log(marketplace);
+
+    //save the marketplace//
+    await marketplace.save();
+
+    //return 200 status and success message//
+    return res.status(201).json({
+      success: true,
+      data: marketplace,
+    });
   } catch (e) {
     console.error(e);
     return res.status(500).send(e);
@@ -34,5 +71,5 @@ server.use('*', (req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`Server is listening on port ${PORT}`);
+  // console.log(`Server is listening on port ${PORT}`);
 });
