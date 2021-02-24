@@ -24,7 +24,7 @@ server.get('/api/marketplaces', async (req, res) => {
 server.post('/api/marketplaces', async (req, res) => {
   try {
     const { body } = req;
-    console.log('😃', body);
+    // console.log('😃', body);
 
     //check body properties - description, description, owner//
 
@@ -39,8 +39,8 @@ server.post('/api/marketplaces', async (req, res) => {
     }
 
     //check if the marketplace already exists//
-    const marketplaceExists = await Marketplaces.findOne({ name: body.name && body.description});
-    console.log(marketplaceExists);
+    const marketplaceExists = await Marketplaces.findOne({ name: body.name});
+    // console.log(marketplaceExists);
 
     // const check => () ={
     //   if (marketplaceExists = false) {
@@ -49,7 +49,7 @@ server.post('/api/marketplaces', async (req, res) => {
     // }
 
     //use the model to create a new marketplace//
-    const marketplace = new Marketplaces({ body });
+    const marketplace = new Marketplaces( body );
     console.log(marketplace);
 
     //save the marketplace//
@@ -61,7 +61,7 @@ server.post('/api/marketplaces', async (req, res) => {
       data: marketplace,
     });
   } catch (e) {
-    console.error(e);
+    // console.error(e);
     return res.status(500).send(e);
   }
 });
