@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/server.js",
+  "type": "module"
   "scripts": {
     "start":	"node server.js"
 "start:watch:"	"yarn run build && nodemon --watch src --exec yarn start"
