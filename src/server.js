@@ -24,8 +24,6 @@ server.get('/api/marketplaces', async (req, res) => {
 server.post('/api/marketplaces', async (req, res) => {
   try {
     const { body } = req;
-    console.log('😃', body);
-
     //check body properties - description, description, owner//
 
     if (
@@ -36,7 +34,7 @@ server.post('/api/marketplaces', async (req, res) => {
       return res.status(400).json({
         error: 'Marketplace description, description, owner required',
       });
-    }
+    };
 
     //check if the marketplace already exists//
     const marketplaceExists = await Marketplaces.findOne({ name: body.name});
@@ -62,10 +60,49 @@ server.post('/api/marketplaces', async (req, res) => {
   }
 });
 
+server.put('/api/marketplaces/:id', async (req, res) => {
+  try { 
+    const {body} = req;
+    const{ id } = req.params;
+    console.log(id)
+    //check :id is not undefined//
+    if (!id) {
+      return res.status(400).json({ error: 'Marketplace id parameter required'})
+    }
+
+    //check body properties - description, description, owner//
+    if (
+    !body.hasOwnProperty('name') ||
+    !body.hasOwnProperty('description') ||
+    !body.hasOwnProperty('owner')
+    ) {
+      return res.status(400).json({ error: 'Market name, description, owner required'});
+    }
+
+    const marketplacesExists = await Marketplaces.findByIdAndUpdate(id, body, {new: true }).lean();
+    delete marketplace._v;
+    console.log(marketplacesExists);
+
+    return res.status(200).json({
+      success: true,
+      data: marketplace
+    });
+
+  }catch (e) {
+    console.error(e);
+
+    if (e.kind == 'ObjectId' && e.path == '_id') {
+      return res.status(400).json({ error: 'invalid id parameter'})
+    }
+    return res.status(500).send(e)
+}
+});
 server.use('*', (req, res) => {
   return res.status(404).json({ error: 'Route not found' });
 });
 
 server.listen(PORT, () => {
-  // console.log(`Server is listening on port ${PORT}`);
+  console.log(`Server is listening on port ${PORT}`);
 });
+
+
